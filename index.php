@@ -46,13 +46,13 @@ function hfiop_callback_function( $post ) {
 
     $hide_featured = get_post_meta( $post->ID, '_hide_featured', true ); ?>
 
-    <input type="checkbox" name="_hide_featured" value="1" <?php checked( $hide_featured, 1 ); ?>><?php _e( 'Yes', 'HideImage' );
+    <input type="checkbox" name="_hide_featured" value="1" <?php checked( $hide_featured, 1 ); ?>><?php _e( 'Yes', 'textdomain' );
 }
 
 /**
  * Save data
  */
-function save_custom_meta_box($post_id, $post, $update) {
+function hfiop_save_meta_box($post_id, $post, $update) {
     if ( !isset($_POST["hfiop-nonce"] ) || !wp_verify_nonce($_POST["hfiop-nonce"], basename(__FILE__)))
         return $post_id;
 
@@ -70,12 +70,12 @@ function save_custom_meta_box($post_id, $post, $update) {
         update_post_meta( $post_id, '_hide_featured', $hide_featured );        
     }
 }
-add_action("save_post", "save_custom_meta_box", 10, 3);
+add_action("save_post", "hfiop_save_meta_box", 10, 3);
 
 /**
  *  Hide featured image from single post page
  */
-function hide_featured_image() {
+function hfiop_hide_featured_image() {
     
     if( is_single() ){
 
@@ -90,6 +90,20 @@ function hide_featured_image() {
       }
     }
 }
-add_action( 'wp_head', 'hide_featured_image'); /* Add inline styling inside the head tag */
+add_action( 'wp_head', 'hfiop_hide_featured_image'); /* Add inline styling inside the head tag */
+
+/**
+ *  Functions references
+ *
+ *  https://codex.wordpress.org/Plugin_API/Action_Reference/add_meta_boxes
+ *  
+ *  https://codex.wordpress.org/Function_Reference/checked
+ *
+ *  https://developer.wordpress.org/reference/functions/get_post_meta/
+ *
+ *  https://codex.wordpress.org/Function_Reference/wp_nonce_field
+ *
+ *  https://developer.wordpress.org/reference/functions/_e/
+ */
 
 ?>
